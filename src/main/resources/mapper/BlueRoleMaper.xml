@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allblue.mapper.BlueRoleMapper">
+    <resultMap id="BaseResultMap" type="com.allblue.model.BlueRole">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="created_time" property="created_time" jdbcType="TIMESTAMP"/>
+        <result column="modified_time" property="modified_time" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name,code, status, created_time, modified_time, creator, modifier, remark
+    </sql>
+
+    <select id="selectRoleInfo" resultMap="BaseResultMap" parameterType="com.allblue.model.BlueRole">
+        select
+        *
+        from blue_role
+        where 1=1
+        <if test="id != null">
+            AND id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null">
+            AND name = #{name,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+    <insert id="insert" parameterType="com.allblue.model.BlueRole" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_role (
+        name,
+        code,
+        status,
+        created_time,
+        modified_time,
+        creator,
+        modifier,
+        remark
+        )
+        values (
+        #{name,jdbcType=VARCHAR},
+        #{code,jdbcType=VARCHAR},
+        1,
+        SYSDATE(),
+        SYSDATE(),
+        #{creator,jdbcType=VARCHAR},
+        #{modifier,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="selectRoleTotalCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(*)
+        from blue_role
+        where name LIKE CONCAT('%',#{opts},'%')
+    </select>
+
+    <select id="selectRoleList" resultMap="BaseResultMap" parameterType="com.allblue.model.dto.SearchDTO">
+        select
+        *
+        from blue_role
+        where name LIKE CONCAT('%',#{searchContext},'%')
+        ORDER BY #{sortName} #{sortOrder}
+        LIMIT #{offset},#{limit}
+    </select>
+
+    <update id="updateById" parameterType="com.allblue.model.BlueRole">
+        update blue_role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                name = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+                modified_time = SYSDATE(),
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectUserRoleTotalCount" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM blue_user_role
+        WHERE
+        role_id = #{roleId,jdbcType=INTEGER}
+        AND
+        user_name LIKE CONCAT('%',#{searchContext,jdbcType=VARCHAR},'%')
+    </select>
+
+    <select id="queryUserRoleInfoByPage" parameterType="java.util.Map" resultType="com.allblue.model.vo.UserRoleVO">
+        SELECT
+        bur.id,
+        bur.user_name AS userName,
+        bur.role_id AS roleId,
+        br.name AS roleName,
+        bur.creator,
+        bur.created_time AS createdTime
+        FROM
+          blue_user_role AS bur
+          LEFT JOIN blue_role AS br
+          ON bur.role_id = br.id
+        WHERE
+        bur.role_id = #{roleId,jdbcType=INTEGER}
+        AND bur.user_name LIKE CONCAT('%',#{searchContext,jdbcType=VARCHAR},'%')
+        ORDER BY #{sort,jdbcType=VARCHAR} #{order,jdbcType=VARCHAR}
+        LIMIT #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
+    </select>
+
+    <select id="checkRepeatUserCode" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM blue_user_role
+        WHERE
+          user_name = #{userName}
+        AND
+          role_id = #{roleId}
+    </select>
+
+    <insert id="saveUserRole" useGeneratedKeys="true">
+        insert into blue_user_role (
+        user_Name,
+        role_id,
+        creator,
+        created_time
+        )
+        values (
+        #{userName},
+        #{roleId},
+        #{creator},
+        SYSDATE()
+        )
+    </insert>
+
+    <delete id="deleteUserRoleById" parameterType="java.lang.Integer">
+        DELETE FROM
+        blue_user_role
+        WHERE
+        id = #{id}
+    </delete>
+
+    <delete id="deleteAuthorityByRoleId" parameterType="java.lang.Integer">
+        DELETE FROM
+        blue_role_system
+        WHERE
+        role_id = #{roleId}
+    </delete>
+
+    <insert id="saveAuthorityByRoleId" parameterType="java.util.Map">
+        INSERT INTO blue_role_system (
+        `system_code`,
+        `role_id`,
+        `creator`,
+        `created_time`
+        )
+        VALUES
+        <foreach collection="authorityIds" separator="," item="authorityId">
+            (
+            #{authorityId},
+            #{roleId},
+            #{creator},
+            SYSDATE()
+            )
+        </foreach>
+    </insert>
+
+    <select id="getRoleListByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        br.*
+        FROM
+        blue_role AS br
+        LEFT JOIN blue_user_role AS bur
+        ON bur.role_id = br.id
+        WHERE
+        bur.user_name = #{name}
+    </select>
+
+    <select id="getSystemRoleList" resultType="com.allblue.model.vo.SystemRoleVO">
+        SELECT
+        brs.`id`,
+        brs.`system_code` AS systemCode,
+        bs.`url`,
+        brs.`role_id` AS roleId,
+        br.`code` AS roleCode
+        FROM
+        blue_role_system AS brs
+        LEFT JOIN blue_role AS br ON brs.role_id = br.id
+        LEFT JOIN blue_system AS bs ON brs.system_code = bs.code
+    </select>
+</mapper>

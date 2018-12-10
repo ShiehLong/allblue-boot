@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allblue.mapper.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.allblue.model.Role">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="video" property="video" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, sex, age, pic, description, video
+    </sql>
+
+    <insert id="insert" parameterType="com.allblue.model.Role" useGeneratedKeys="true" keyProperty="id">
+        insert into role (name, sex, age, pic, description, video)
+        values (#{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+        #{age,jdbcType=INTEGER}, #{pic,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectRoleList" resultMap="BaseResultMap">
+        select * from role order by id ASC
+    </select>
+
+    <update id="updateRoleById" parameterType="com.allblue.model.Role">
+        update role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="pic != null">
+                pic = #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="video != null">
+                video = #{video,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteRoleById" parameterType="java.lang.Integer">
+        delete from role
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <select id="selectRoleInfo" resultMap="BaseResultMap" parameterType="com.allblue.model.Role">
+        select
+        *
+        from role
+        where 1=1
+        <if test="id != null">
+            AND id = #{id,jdbcType=INTEGER}
+        </if>
+
+    </select>
+</mapper>

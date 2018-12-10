@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allblue.mapper.BlueUserMapper">
+    <resultMap id="BaseResultMap" type="com.allblue.model.BlueUser">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="photo" property="photo" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="created_time" property="created_time" jdbcType="TIMESTAMP"/>
+        <result column="modified_time" property="modified_time" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, email, password, photo, status, created_time, modified_time, creator, modifier
+    </sql>
+
+    <select id="selectUserInfo" resultMap="BaseResultMap" parameterType="com.allblue.model.BlueUser">
+        select
+        *
+        from blue_user
+        where 1=1
+        <if test="id != null">
+            AND id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null">
+            AND name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="password != null">
+            AND password = #{password,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+    <insert id="insert" parameterType="com.allblue.model.BlueUser" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_user (
+            name,
+            email,
+            password,
+            photo,
+            status,
+            created_time,
+            modified_time,
+            creator,
+            modifier
+        )
+        values (
+            #{name,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR},
+            #{password,jdbcType=VARCHAR},
+            #{photo,jdbcType=VARCHAR},
+            1,
+            SYSDATE(),
+            SYSDATE(),
+            #{creator,jdbcType=VARCHAR},
+            #{modifier,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="selectUserList" resultMap="BaseResultMap">
+        select * from blue_user order by id ASC
+    </select>
+
+    <select id="selectUserTotalCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(*)
+        from blue_user
+            where name LIKE CONCAT('%',#{opts},'%')
+            OR email LIKE CONCAT('%',#{opts},'%')
+    </select>
+
+    <select id="selectUserListBySearchDTO" resultMap="BaseResultMap" parameterType="com.allblue.model.dto.SearchDTO">
+        select
+        *
+        from blue_user
+            where name LIKE CONCAT('%',#{searchContext},'%')
+            OR email LIKE CONCAT('%',#{searchContext},'%')
+        ORDER BY #{sortName} #{sortOrder}
+        LIMIT #{offset},#{limit}
+    </select>
+
+    <update id="updateById" parameterType="com.allblue.model.BlueUser">
+        update blue_user
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                photo = #{photo,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+                modified_time = SYSDATE()
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

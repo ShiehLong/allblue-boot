@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allblue.mapper.BlueSystemMapper">
+    <resultMap id="BaseResultMap" type="com.allblue.model.BlueSystem">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="parent_code" property="parent_code" jdbcType="VARCHAR"/>
+        <result column="sort_id" property="sort_id" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="created_time" property="created_time" jdbcType="TIMESTAMP"/>
+        <result column="modified_time" property="modified_time" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,code, name,url,level,parent_code,sort_id, status, created_time, modified_time, creator, modifier, remark
+    </sql>
+
+    <select id="selectSystemInfo" resultMap="BaseResultMap" parameterType="com.allblue.model.BlueSystem">
+        select
+        *
+        from blue_system
+        where 1=1
+        <if test="code != null">
+            AND code = #{code,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+    <select id="selectListByParentCode" resultType="java.lang.String" parameterType="java.lang.String">
+        select
+        code
+        from blue_system
+        where
+        parent_code = #{code,jdbcType=VARCHAR}
+
+    </select>
+
+    <insert id="insert" parameterType="com.allblue.model.BlueSystem" useGeneratedKeys="true" keyProperty="id">
+        insert into blue_system (
+        code,
+        name,
+        url,
+        level,
+        parent_code,
+        sort_id,
+        status,
+        created_time,
+        modified_time,
+        creator,
+        modifier,
+        remark
+        )
+        values (
+        #{code,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR},
+        (
+        SELECT level from
+        (
+        (select max(level)+1 level from blue_system where 1=1
+        <if test="parent_code!=null and parent_code!=''">
+            and code = #{parent_code}
+        </if>
+        <if test="parent_code==null or parent_code==''">
+            and code is null
+        </if>
+        )
+        ) tmp
+        ),
+        #{parent_code,jdbcType=VARCHAR},
+        (
+        SELECT sort_id from
+        (
+        (select COALESCE(max(sort_id),0)+1 sort_id from blue_system where 1=1
+        <if test="parent_code!=null and parent_code!=''">
+            and parent_code = #{parent_code}
+        </if>
+        <if test="parent_code==null or parent_code==''">
+            and parent_code is null
+        </if>
+        )
+        ) tmp
+        ),
+        1,
+        SYSDATE(),
+        SYSDATE(),
+        #{creator,jdbcType=VARCHAR},
+        #{modifier,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="selectSystemList" resultType="com.allblue.model.dto.ZTreeNode">
+        SELECT
+          `code` as id,
+          `name`,
+          `parent_code` AS pId
+        FROM
+          blue_system
+        WHERE
+          status = 1
+        order by
+          level,parent_code,sort_id
+    </select>
+
+    <select id="selectAllSystem" resultType="com.allblue.model.dto.ZTreeNode">
+        SELECT
+          `code` AS id,
+          `name`
+        FROM
+          blue_system
+        WHERE
+          status = 1
+        GROUP BY code
+    </select>
+
+    <update id="updateByCode" parameterType="com.allblue.model.BlueSystem">
+        update blue_system
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+                modified_time = SYSDATE(),
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where code = #{code,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectSystemListByRoleId" parameterType="java.lang.Integer"
+            resultType="com.allblue.model.dto.ZTreeNode">
+        SELECT
+          bs.`code` as id,
+          bs.`name`,
+          bs.`parent_code` AS pId
+        FROM
+        blue_system bs,blue_role_system brs
+        WHERE
+        bs.`code` = brs.`system_code`
+        AND
+        brs.`role_id`= #{roleId}
+    </select>
+</mapper>
