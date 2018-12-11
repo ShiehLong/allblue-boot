@@ -1,11 +1,20 @@
 package com.allblue.controller;
 
+import com.allblue.model.BlueUser;
+import com.allblue.service.BlueUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/view")
 public class BlueViewController {
+
+    @Autowired
+    BlueUserService blueUserService;
 
     @RequestMapping(value = "/login")
     public String login() {
@@ -19,7 +28,7 @@ public class BlueViewController {
 
     @RequestMapping(value = "/error")
     public String error() {
-        return "common/error";
+        return "common/access";
     }
 
     @RequestMapping(value = "/userList")
@@ -43,7 +52,13 @@ public class BlueViewController {
     }
 
     @RequestMapping(value = "/index")
-    public String index() {
+    public String index(HttpSession session) {
+        BlueUser bl = (BlueUser) session.getAttribute("blueUser");
+        if (bl == null) {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            BlueUser blueUser = blueUserService.getUserInfo(username);
+            session.setAttribute("blueUser", blueUser);
+        }
         return "index";
     }
 }

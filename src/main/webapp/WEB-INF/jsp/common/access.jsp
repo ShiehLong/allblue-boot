@@ -12,6 +12,7 @@
 <div class="error404">
     <div class="info">
         <h2>抱歉，您没有访问页面的权限！ (｡•ˇ‸ˇ•｡)</h2>
+        <a href="/view/index" class="btn">返回首页</a>
     </div>
     <div class="pic">
         <img src="/img/404.gif" alt=" "/>

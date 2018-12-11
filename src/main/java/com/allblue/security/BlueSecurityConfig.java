@@ -35,10 +35,11 @@ public class BlueSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/css/**");
         web.ignoring().antMatchers("/fonts/**");
         web.ignoring().antMatchers("/img/**");
-        web.ignoring().antMatchers("/js");
+        web.ignoring().antMatchers("/js/**");
         web.ignoring().antMatchers("/view/login");
         web.ignoring().antMatchers("/view/register");
         web.ignoring().antMatchers("/view/error");
+        web.ignoring().antMatchers("/view/index");
     }
 
     @Override
@@ -49,12 +50,14 @@ public class BlueSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().anyRequest().fullyAuthenticated();
         //  定义当需要用户登录时候，转到的登录页面。
         http.formLogin().
-                loginPage("/view/login").
-                loginProcessingUrl("/user/login")
+                loginPage("/view/login")
+                .loginProcessingUrl("/user/login")
                 .usernameParameter("username")
-                .passwordParameter("password");
+                .passwordParameter("password")
+                .failureForwardUrl("/view/login")
+                .successForwardUrl("/view/index");
 
-        http.logout().logoutUrl("/logout").logoutSuccessUrl("/view/login");
+        http.logout().logoutUrl("/user/logout").logoutSuccessUrl("/view/login");
 
         http.exceptionHandling().authenticationEntryPoint(
                 new LoginUrlAuthenticationEntryPoint("/view/login"))

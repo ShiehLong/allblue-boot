@@ -108,7 +108,7 @@
                 {
                     name: name,
                     email: email,
-                    password: hex_sha1(password)
+                    password: password
                 },
                 function (data) {
                     if (data["result"] === "success") {

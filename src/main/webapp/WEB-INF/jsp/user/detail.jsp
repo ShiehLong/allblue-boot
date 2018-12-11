@@ -29,10 +29,6 @@
             <td>${blueUser.name }</td>
         </tr>
         <tr>
-            <td>用户密码:</td>
-            <td>${blueUser.password }</td>
-        </tr>
-        <tr>
             <td>用户邮箱:</td>
             <td>${blueUser.email }</td>
         </tr>

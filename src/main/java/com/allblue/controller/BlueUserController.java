@@ -64,7 +64,7 @@ public class BlueUserController {
         } else {
             //加密密码
             BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder();
-//            password = bcryptPasswordEncoder.encode(password);
+            password = bcryptPasswordEncoder.encode(password);
 
             BlueUser blueUser = new BlueUser();
             blueUser.setName(name);
