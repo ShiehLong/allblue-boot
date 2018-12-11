@@ -30,33 +30,34 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">扬&nbsp;&nbsp;帆&nbsp;&nbsp;起&nbsp;&nbsp;航</p>
-        <div class="form-group has-feedback">
-            <input type="text" class="form-control" name='username' id="username" placeholder="用户名">
-            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-        </div>
-        <div class="form-group has-feedback">
-            <input type="password" class="form-control" name='password' id="password" placeholder="密码">
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-        </div>
-        <div class="row">
-            <div class="col-xs-8">
-                <div class="checkbox">
-                    <label>
-                        <input name="_spring_security_remember_me" type="checkbox"> &nbsp;记住用户名
-                    </label>
+        <form action="/user/login" method="post">
+            <p class="login-box-msg">扬&nbsp;&nbsp;帆&nbsp;&nbsp;起&nbsp;&nbsp;航</p>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control" name='username' id="username" placeholder="用户名">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" name='password' id="password" placeholder="密码">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox">
+                        <label>
+                            <input name="remember" type="checkbox"> &nbsp;记住用户名
+                        </label>
+                    </div>
                 </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" id="login" class="btn btn-primary btn-block btn-flat">登录</button>
+                </div>
+                <!-- /.col -->
             </div>
-            <!-- /.col -->
-            <div class="col-xs-4">
-                <button type="submit" id="login" class="btn btn-primary btn-block btn-flat">登录</button>
-            </div>
-            <!-- /.col -->
-        </div>
 
-        <a href="#">忘记密码</a><br>
-        <a href="/view/register" class="text-center">注册会员</a>
-
+            <a href="#">忘记密码</a><br>
+            <a href="/view/register" class="text-center">注册会员</a>
+        </form>
     </div>
     <!-- /.login-box-body -->
 </div>
@@ -82,20 +83,20 @@
                 alert("密码不能为空！");
                 return false;
             }
-            var url = "/blueUser/login";
-            $.post(url,
-                {
-                    name: name,
-                    password: hex_sha1(password)
-                },
-                function (data) {
-                    if (data["result"] === "success") {
-                        console.log(data["msg"]);
-                        window.location.href = "/view/index";
-                    } else {
-                        alert(data["msg"]);
-                    }
-                });
+//            var url = "/blueUser/login";
+//            $.post(url,
+//                {
+//                    name: name,
+//                    password: hex_sha1(password)
+//                },
+//                function (data) {
+//                    if (data["result"] === "success") {
+//                        console.log(data["msg"]);
+//                        window.location.href = "/view/index";
+//                    } else {
+//                        alert(data["msg"]);
+//                    }
+//                });
 
         });
     });
