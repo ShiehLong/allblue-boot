@@ -1,5 +1,7 @@
 package com.allblue.model.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class UserRoleVO {
@@ -8,6 +10,7 @@ public class UserRoleVO {
     private Integer roleId;             //bigint(20) NULL角色id
     private String roleName;            //角色名称
     private String creator;             //varchar(255) NOT NULL创建者
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
     private Date createdTime;            //timestamp NULL创建时间
 
     public Integer getId() {

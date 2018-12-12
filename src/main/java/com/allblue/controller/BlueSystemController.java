@@ -82,7 +82,7 @@ public class BlueSystemController {
         }
     }
 
-    @RequestMapping(value = "/{code}/detail", method = RequestMethod.GET)
+    @RequestMapping(value = "/detail/{code}", method = RequestMethod.GET)
     @ResponseBody
     public ResultInfo detail(@PathVariable("code") String code) {
 
@@ -96,7 +96,7 @@ public class BlueSystemController {
         return ResultInfo.success("SUCCESS", systemInfo);
     }
 
-    @RequestMapping(value = "/{code}/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/{code}", method = RequestMethod.POST)
     @ResponseBody
     public ResultInfo update(@PathVariable("code") String code,
                              @RequestParam(value = "name", required = false) String name,
@@ -136,7 +136,7 @@ public class BlueSystemController {
         }
     }
 
-    @RequestMapping(value = "/{code}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{code}", method = RequestMethod.GET)
     @ResponseBody
     public ResultInfo deleteUser(@PathVariable("code") String code) {
         if (code == null || "".equals(code)) {
@@ -159,7 +159,7 @@ public class BlueSystemController {
         }
     }
 
-    @RequestMapping(value = "/{roleId}/getZTreeNodesForAuthAction", method = RequestMethod.GET)
+    @RequestMapping(value = "/getZTreeNodesForAuthAction/{roleId}", method = RequestMethod.GET)
     @ResponseBody
     public ResultInfo getZTreeNodesForAuthAction(@PathVariable("roleId") Integer roleId) {
         List<ZTreeNode> list = blueSystemService.getZTreeNodesForAuthAction(roleId);

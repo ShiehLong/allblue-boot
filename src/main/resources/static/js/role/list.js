@@ -74,9 +74,6 @@ function initTable() {
             field: 'created_time',
             title: '创建时间',
             align: 'center',
-            formatter: function (value, row, index) {
-                return changeDateFormat(value);
-            }
         }, {
             field: 'modifier',
             title: '修改人',
@@ -85,9 +82,6 @@ function initTable() {
             field: 'modified_time',
             title: '修改时间',
             align: 'center',
-            formatter: function (value, row, index) {
-                return changeDateFormat(value);
-            }
         }, {
             field: 'operation',
             title: '操作',
@@ -175,7 +169,7 @@ window.operateEvents = {
     'click #btn_edit': function (e, value, row, index) {
         $.ajax({
             type: "GET",
-            url: "/blueRole/" + row['id'] + "/detail",
+            url: "/blueRole/detail/" + row['id'],
             data: {},
             dataType: 'JSON',
             success: function (data) {
@@ -191,6 +185,11 @@ window.operateEvents = {
                 document.getElementById("edit_remark").value = roleInfo.remark;
                 // 显示模态框
                 $('#editRole').modal('show');
+            },
+            error: function (data) {
+                if (data.status === 403) {
+                    alert("没有权限！");
+                }
             }
         });
 
@@ -209,7 +208,7 @@ window.operateEvents = {
     'click #btn_delete': function (e, value, row, index) {
         $.ajax({
             type: "GET",
-            url: "/blueRole/" + row['id'] + "/delete",
+            url: "/blueRole/delete/" + row['id'],
             data: {},
             dataType: 'JSON',
             success: function (data) {
@@ -219,6 +218,11 @@ window.operateEvents = {
                 }
                 console.log('删除成功');
                 $("#table").bootstrapTable('refresh');
+            },
+            error: function (data) {
+                if (data.status === 403) {
+                    alert("没有权限！");
+                }
             }
         });
         return false;
@@ -259,8 +263,10 @@ function submitCreateForm() {
                 console.log("保存失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 
@@ -288,7 +294,7 @@ function submitEditForm() {
 
     $.ajax({
         type: "POST",
-        url: "/blueRole/" + id + "/update",
+        url: "/blueRole/update/" + id,
         dataType: 'json',
         data: {
             name: name,
@@ -304,8 +310,10 @@ function submitEditForm() {
                 console.log("保存失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }
@@ -385,9 +393,6 @@ function createUserRoleTable(roleId) {
             halign: "center",
             align: 'center',
             title: '创建时间',
-            formatter: function (value, row, index) {
-                return changeDateFormat(value);
-            }
         }, {
             field: 'operation',
             title: '操作',
@@ -435,8 +440,10 @@ function createUserRole() {
                 $("#user-code-error-message").text(result.message);
             }
         },
-        error: function () {
-            console.log("关联关系保存失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }
@@ -450,7 +457,7 @@ function searchUserRole() {
 function deleteUserRole(id) {
     $.ajax({
         type: "get",
-        url: "/blueRole/" + id + "/deleteUserRoleById",
+        url: "/blueRole/deleteUserRoleById/" + id,
         data: {},
         dataType: 'JSON',
         success: function (result) {
@@ -460,8 +467,10 @@ function deleteUserRole(id) {
                 alert("关联关系删除失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("关联关系删除失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }
@@ -510,7 +519,7 @@ function createTree(roleId) {
     $.ajax({
         type: "get",
         dataType: "json",
-        url: "/blueSystem/" + roleId + "/getZTreeNodesForAuthAction",
+        url: "/blueSystem/getZTreeNodesForAuthAction/" + roleId,
         success: function (result) {
             if (result.status === 0) {
                 var zNodes = result.data;
@@ -519,8 +528,10 @@ function createTree(roleId) {
                 alert("权限数据加载失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }
@@ -554,8 +565,10 @@ function saveRoleSystem() {
                 alert("权限保存失败！");
             }
         },
-        error: function () {
-            console.log("权限保存失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }

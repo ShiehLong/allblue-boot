@@ -87,7 +87,7 @@ public class BlueRoleController {
         }
     }
 
-    @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResultInfo detail(@PathVariable("id") int id) {
         if (id == 0) {
@@ -101,7 +101,7 @@ public class BlueRoleController {
         return ResultInfo.success("SUCCESS", roleInfo);
     }
 
-    @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResultInfo update(@PathVariable("id") int id,
                              @RequestParam(value = "name", required = false) String name,
@@ -146,7 +146,7 @@ public class BlueRoleController {
         }
     }
 
-    @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResultInfo deleteUser(@PathVariable("id") int id) {
         if (id == 0) {
@@ -206,7 +206,7 @@ public class BlueRoleController {
         return ResultInfo.success();
     }
 
-    @RequestMapping(value = "/{id}/deleteUserRoleById", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteUserRoleById/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResultInfo deleteUserRoleById(@PathVariable("id") int id) {
         if (id == 0) {

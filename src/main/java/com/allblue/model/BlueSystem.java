@@ -1,5 +1,7 @@
 package com.allblue.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -25,8 +27,10 @@ public class BlueSystem {
     //状态
     private Integer status;
     //创建时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
     private Date created_time;
     //最后修改时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
     private Date modified_time;
     //创建者
     private String creator;

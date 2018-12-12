@@ -32,14 +32,15 @@ public class BlueSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //配置不拦截请求
+        web.ignoring().antMatchers("/favicon.ico");
         web.ignoring().antMatchers("/css/**");
         web.ignoring().antMatchers("/fonts/**");
         web.ignoring().antMatchers("/img/**");
         web.ignoring().antMatchers("/js/**");
         web.ignoring().antMatchers("/view/login");
         web.ignoring().antMatchers("/view/register");
-        web.ignoring().antMatchers("/view/error");
-        web.ignoring().antMatchers("/view/index");
+        web.ignoring().antMatchers("/view/access");
+        web.ignoring().antMatchers("/blueUser/register");
     }
 
     @Override
@@ -47,7 +48,9 @@ public class BlueSecurityConfig extends WebSecurityConfigurerAdapter {
         //解决不允许显示在iframe的问题
         http.headers().frameOptions().disable();
 
-        http.authorizeRequests().anyRequest().fullyAuthenticated();
+        http.authorizeRequests()
+                .antMatchers("/blueUser/register").permitAll()
+                .anyRequest().authenticated();
         //  定义当需要用户登录时候，转到的登录页面。
         http.formLogin().
                 loginPage("/view/login")
@@ -55,13 +58,15 @@ public class BlueSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .failureForwardUrl("/view/login")
-                .successForwardUrl("/view/index");
+                .successForwardUrl("/view/index")
+                .failureUrl("/view/access")
+                .permitAll();
 
-        http.logout().logoutUrl("/user/logout").logoutSuccessUrl("/view/login");
+        http.logout().logoutUrl("/user/logout").logoutSuccessUrl("/view/login").permitAll();
 
-        http.exceptionHandling().authenticationEntryPoint(
-                new LoginUrlAuthenticationEntryPoint("/view/login"))
-                .accessDeniedPage("/view/error");
+        http.exceptionHandling()
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/view/login"))
+                .accessDeniedPage("/view/access");
 
         //开启记住我功能
         http.rememberMe().rememberMeParameter("remember");
@@ -88,6 +93,7 @@ public class BlueSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }

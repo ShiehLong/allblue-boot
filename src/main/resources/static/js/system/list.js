@@ -44,8 +44,10 @@ function createTree() {
                 console.log("权限数据加载失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }
@@ -79,7 +81,7 @@ function onRemove(e, treeId, treeNode) {
     $.ajax({
         type: "get",
         dataType: "json",
-        url: "/blueSystem/" + code + "/delete",
+        url: "/blueSystem/delete/" + code,
         data: {},
         success: function (result) {
             if (result.status === 0) {
@@ -89,8 +91,10 @@ function onRemove(e, treeId, treeNode) {
                 console.log("保存失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }
@@ -123,8 +127,10 @@ function openCreateModel() {
                 console.log("获取权限信息失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 
@@ -167,8 +173,10 @@ function submitCreateForm() {
                 console.log("保存失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }
@@ -179,7 +187,7 @@ function openEditModel(code) {
     $.ajax({
         type: "get",
         dataType: "json",
-        url: '/blueSystem/' + code + '/detail',
+        url: '/blueSystem/detail/' + code,
         success: function (result) {
             if (result.status === 0) {
                 var systemInfo = result.data;
@@ -195,8 +203,10 @@ function openEditModel(code) {
                 console.log("获取权限信息失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 
@@ -222,7 +232,7 @@ function submitEditForm() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/blueSystem/" + code + "/update",
+        url: "/blueSystem/update/" + code,
         data: {
             name: name,
             parent_code: parent_code,
@@ -238,8 +248,10 @@ function submitEditForm() {
                 console.log("保存失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }

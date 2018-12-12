@@ -110,12 +110,10 @@
                     email: email,
                     password: password
                 },
-                function (data) {
-                    if (data["result"] === "success") {
-                        alert(data["msg"]);
+                function (result) {
+                    alert(result.message);
+                    if (result.status === 0) {
                         window.location.href = "/view/login";
-                    } else if (data["result"] === "fail") {
-                        alert(data["msg"]);
                     }
                 });
         });

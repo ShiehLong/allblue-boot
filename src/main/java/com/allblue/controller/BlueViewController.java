@@ -26,7 +26,7 @@ public class BlueViewController {
         return "common/register";
     }
 
-    @RequestMapping(value = "/error")
+    @RequestMapping(value = "/access")
     public String error() {
         return "common/access";
     }

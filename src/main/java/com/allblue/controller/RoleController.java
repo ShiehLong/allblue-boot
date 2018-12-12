@@ -4,11 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.allblue.model.Role;
 import com.allblue.model.dto.RoleDTO;
 import com.allblue.service.RoleService;
-import com.allblue.utils.PropUtil;
 import com.allblue.utils.UploadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -26,7 +26,9 @@ import java.util.List;
 public class RoleController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private PropUtil propUtil = new PropUtil("FrameWork.properties");
+
+    @Value("${allblue.RolePhotoPath}")
+    private String RolePhotoPath;
 
     @Autowired
     private RoleService roleService;
@@ -53,7 +55,7 @@ public class RoleController {
         role.setVideo(roleDTO.getVideo());
 
         //上传照片
-        String newName = UploadUtil.fileUpload(roleDTO.getPic(), propUtil.get("RolePhotoPath"));
+        String newName = UploadUtil.fileUpload(roleDTO.getPic(), RolePhotoPath);
         if (newName != null) {
             role.setPic("/photos/role/" + newName);
         }
@@ -108,7 +110,7 @@ public class RoleController {
         role.setId(id);
 
         //上传照片
-        String newName = UploadUtil.fileUpload(roleDTO.getPic(), propUtil.get("RolePhotoPath"));
+        String newName = UploadUtil.fileUpload(roleDTO.getPic(), RolePhotoPath);
         if (newName != null) {
             role.setPic("/photos/role/" + newName);
         }

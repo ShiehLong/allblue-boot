@@ -58,6 +58,11 @@ $(function () {
                 if (data.status === 0) {
                     img.src = data.message;
                 }
+            },
+            error: function (data) {
+                if (data.status === 403) {
+                    alert("没有权限！");
+                }
             }
         });
     });
@@ -134,9 +139,6 @@ function initTable() {
             field: 'created_time',
             title: '创建时间',
             align: 'center',
-            formatter: function (value, row, index) {
-                return changeDateFormat(value);
-            }
         }, {
             field: 'modifier',
             title: '修改人',
@@ -145,9 +147,6 @@ function initTable() {
             field: 'modified_time',
             title: '修改时间',
             align: 'center',
-            formatter: function (value, row, index) {
-                return changeDateFormat(value);
-            }
         }, {
             field: 'operation',
             title: '操作',
@@ -202,7 +201,7 @@ window.operateEvents = {
     'click #btn_edit': function (e, value, row, index) {
         $.ajax({
             type: "GET",
-            url: "/blueUser/" + row['id'] + "/detail",
+            url: "/blueUser/detail/" + row['id'],
             data: {},
             dataType: 'JSON',
             success: function (data) {
@@ -218,6 +217,11 @@ window.operateEvents = {
                 $("input[name=status][value='" + userInfo.status + "']").attr("checked", true);
                 // 显示模态框
                 $('#editUser').modal('show');
+            },
+            error: function (data) {
+                if (data.status === 403) {
+                    alert("没有权限！");
+                }
             }
         });
     },
@@ -226,7 +230,7 @@ window.operateEvents = {
     'click #btn_delete': function (e, value, row, index) {
         $.ajax({
             type: "GET",
-            url: "/blueUser/" + row['id'] + "/delete",
+            url: "/blueUser/delete/" + row['id'],
             data: {},
             dataType: 'JSON',
             success: function (data) {
@@ -236,6 +240,11 @@ window.operateEvents = {
                 }
                 console.log('删除成功');
                 $("#table").bootstrapTable('refresh');
+            },
+            error: function (data) {
+                if (data.status === 403) {
+                    alert("没有权限！");
+                }
             }
         });
         return false;
@@ -274,8 +283,10 @@ function submitCreateForm() {
                 console.log("保存失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }
@@ -299,19 +310,16 @@ function submitEditForm() {
         alert("两次密码不一致！");
         return false;
     }
-    if (password !== "") {
-        var passwords = hex_sha1(password);
-    }
 
     $.ajax({
         type: "POST",
-        url: "/blueUser/" + id + "/update",
+        url: "/blueUser/update/" + id,
         dataType: 'json',
         data: {
             photo: photo,
             email: email,
             status: status,
-            password: passwords
+            password: password
         },
         success: function (result) {
             if (result.status === 0) {
@@ -321,8 +329,10 @@ function submitEditForm() {
                 console.log("保存失败，服务器内部异常！");
             }
         },
-        error: function () {
-            console.log("操作失败，请检查网络！");
+        error: function (data) {
+            if (data.status === 403) {
+                alert("没有权限！");
+            }
         }
     });
 }

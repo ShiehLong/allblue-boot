@@ -51,4 +51,5 @@ public class BlueAccessDecisionManager implements AccessDecisionManager {
     public boolean supports(Class<?> clazz) {
         return true;
     }
+
 }

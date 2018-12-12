@@ -49,3 +49,10 @@ pagehelper:
     reasonable: true
     supportMethodsArguments: true
     params: count=countSql
+
+#自定义配置
+allblue:
+  UserPhotoPath: D:\\photos\\user\\
+  RolePhotoPath: D:\\photos\\role\\
+  DefaultPassword: admin
+  DefaultPhoto: /img/default.jpg
