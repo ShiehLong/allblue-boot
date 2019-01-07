@@ -195,7 +195,6 @@ public class BlueUserController {
             @RequestParam(value = "offset", required = false) Integer pageNumber,
             @RequestParam(value = "limit", required = false) Integer pageSize) {
 
-        System.out.println(UserPhotoPath);
         //获取用户数量
         int totalCount = blueUserService.getUserTotalCount(opts);
         if (totalCount > 0) {

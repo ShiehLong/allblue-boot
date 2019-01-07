@@ -1,71 +1,6 @@
 $(function () {
     //初始化表数据
     initTable();
-
-    //关闭模态框后清空数据
-    $('#createUser').on('hidden.bs.modal', function () {
-        $('#create_name').val("");
-        $('#create_email').val("");
-    });
-    //关闭模态框后清空数据
-    $('#editUser').on('hidden.bs.modal', function () {
-        $('#edit_id').val("");
-        $('#create_email').val("");
-        $('#image').src = "/img/default.jpg";
-        $("input[name=status][value='0']").removeAttr('checked');
-        $("input[name=status][value='1']").removeAttr('checked');
-    });
-
-    //实现预览功能
-    $("#photo").change(function preview() {
-        //获取文件框的第一个文件,因为文件有可能上传多个文件,这里是一个文件
-        var file = document.getElementById("photo").files[0];
-        //可以进行一下文件类型的判断
-        var fileType = file.type.split("/")[0];
-        if (fileType !== "image") {
-            alert("请上传图片");
-            return;
-        }
-        //图片大小的限制
-        var fileSize = Math.round(file.size / 1024 / 1024);
-        if (fileSize >= 3) {
-            alert("请上传小于少于3M的图片");
-            return;
-        }
-        //获取img对象
-        var img = document.getElementById("image");
-        //建一条文件流来读取图片
-        var reader = new FileReader();
-        //根据url将文件添加的流中
-        reader.readAsDataURL(file);
-        //实现onload接口
-        reader.onload = function (e) {
-            //获取文件在流中url
-            url = reader.result;
-            //将url赋值给img的src属性
-            img.src = url;
-        };
-        var data = new FormData();
-        data.append("uploadImage", file);
-        $.ajax({
-            type: "POST",
-            url: "/blueUser/upload",
-            data: data,
-            dataType: 'JSON',
-            processData: false,  // 告诉jQuery不要去处理发送的数据
-            contentType: false,  // 告诉jQuery不要去设置Content-Type请求头
-            success: function (data) {
-                if (data.status === 0) {
-                    img.src = data.message;
-                }
-            },
-            error: function (data) {
-                if (data.status === 403) {
-                    alert("没有权限！");
-                }
-            }
-        });
-    });
 });
 
 function doQuery() {
@@ -159,7 +94,7 @@ function initTable() {
 
 //刷新页面后返回数据
 function responseHandler(res) {
-    if (res) {
+    if (res.data !== null) {
         return {
             "rows": res.data,
             "total": res.message
@@ -169,22 +104,6 @@ function responseHandler(res) {
             "rows": [],
             "total": 0
         };
-    }
-}
-
-//转换日期格式(时间戳转换为datetime格式)
-function changeDateFormat(cellval) {
-    var dateVal = cellval + "";
-    if (cellval !== null) {
-        var date = new Date(parseInt(dateVal, 10));
-        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
-        var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-
-        var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-        var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-
-        return date.getFullYear() + "-" + month + "-" + currentDate + " " + hours + ":" + minutes + ":" + seconds;
     }
 }
 
@@ -289,6 +208,12 @@ function submitCreateForm() {
             }
         }
     });
+
+    //关闭模态框后清空数据
+    $('#createUser').on('hidden.bs.modal', function () {
+        $('#create_name').val("");
+        $('#create_email').val("");
+    });
 }
 
 //修改用户信息保存操作
@@ -334,6 +259,15 @@ function submitEditForm() {
                 alert("没有权限！");
             }
         }
+    });
+
+    //关闭模态框后清空数据
+    $('#editUser').on('hidden.bs.modal', function () {
+        $('#edit_id').val("");
+        $('#create_email').val("");
+        $('#image').src = "/img/default.jpg";
+        $("input[name=status][value='0']").removeAttr('checked');
+        $("input[name=status][value='1']").removeAttr('checked');
     });
 }
 

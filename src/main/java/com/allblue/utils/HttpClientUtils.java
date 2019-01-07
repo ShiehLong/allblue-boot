@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 /**
- * @Description: TODO
+ * @Description: httpClient工具类
  * @Author: Xone
  * @Date: 2018/12/13 15:45
  **/
@@ -36,7 +36,7 @@ public class HttpClientUtils {
      * 发送get请求；不带请求头和请求参数
      *
      * @param url 请求地址
-     * @return
+     * @return HttpClientResult
      * @throws Exception
      */
     public static HttpClientResult doGet(String url) throws Exception {
@@ -48,7 +48,7 @@ public class HttpClientUtils {
      *
      * @param url    请求地址
      * @param params 请求参数集合
-     * @return
+     * @return HttpClientResult
      * @throws Exception
      */
     public static HttpClientResult doGet(String url, Map<String, String> params) throws Exception {

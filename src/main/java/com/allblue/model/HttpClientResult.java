@@ -3,7 +3,7 @@ package com.allblue.model;
 import java.io.Serializable;
 
 /**
- * @Description: TODO
+ * @Description: httpClient返回结果bean
  * @Author: Xone
  * @Date: 2018/12/13 15:46
  **/
