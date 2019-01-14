@@ -1,7 +1,7 @@
 package com.allblue.controller;
 
-import com.allblue.model.BlueSystem;
-import com.allblue.model.BlueUser;
+import com.allblue.model.po.BlueSystem;
+import com.allblue.model.po.BlueUser;
 import com.allblue.model.dto.ResultInfo;
 import com.allblue.model.dto.ZTreeNode;
 import com.allblue.service.BlueSystemService;

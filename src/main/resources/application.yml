@@ -53,6 +53,6 @@ pagehelper:
 #自定义配置
 allblue:
   UserPhotoPath: D:\\photos\\user\\
-  RolePhotoPath: D:\\photos\\role\\
+  PhotoPath: D:\\photos\\photo\\
   DefaultPassword: admin
   DefaultPhoto: /img/default.jpg

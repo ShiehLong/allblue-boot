@@ -1,7 +1,7 @@
 package com.allblue.service.impl;
 
 import com.allblue.mapper.BlueSystemMapper;
-import com.allblue.model.BlueSystem;
+import com.allblue.model.po.BlueSystem;
 import com.allblue.model.dto.ZTreeNode;
 import com.allblue.service.BlueSystemService;
 import org.springframework.beans.factory.annotation.Autowired;

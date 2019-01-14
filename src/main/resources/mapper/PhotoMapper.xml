@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.allblue.mapper.PhotoMapper">
+    <sql id="Base_Column_List">
+        id, shooting_title, shooting_location, shooting_time, shooting_photo, description, video
+    </sql>
+
+    <select id="getPhotoList" resultType="com.allblue.model.po.Photo">
+        select
+        id,
+        shooting_title as shootingTitle,
+        shooting_location as shootingLocation,
+        shooting_time as shootingTime,
+        shooting_photo as shootingPhoto,
+        description,
+        video
+        from photo order by id ASC
+    </select>
+
+    <insert id="add" parameterType="com.allblue.model.po.Photo" keyProperty="id">
+        insert into
+        photo (
+          shooting_title,
+          shooting_location,
+          shooting_time,
+          shooting_photo,
+          description,
+          video)
+        values (
+          #{shootingTitle,jdbcType=VARCHAR},
+          #{shootingLocation,jdbcType=VARCHAR},
+          #{shootingTime,jdbcType=VARCHAR},
+          #{shootingPhoto,jdbcType=VARCHAR},
+          #{description,jdbcType=VARCHAR},
+          #{video,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getPhotoDetail" resultType="com.allblue.model.po.Photo" parameterType="java.lang.Integer">
+        select
+        id,
+        shooting_title as shootingTitle,
+        shooting_location as shootingLocation,
+        shooting_time as shootingTime,
+        shooting_photo as shootingPhoto,
+        description,
+        video
+        from photo
+        where  id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <update id="update" parameterType="com.allblue.model.po.Photo">
+        update photo
+        <set>
+            <if test="shootingTitle != null">
+                shooting_title = #{shootingTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="shootingLocation != null">
+                shooting_location = #{shootingLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="shootingTime != null">
+                shooting_time = #{shootingTime,jdbcType=VARCHAR},
+            </if>
+            <if test="shootingPhoto != null">
+                shooting_photo = #{shootingPhoto,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="video != null">
+                video = #{video,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from photo
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

@@ -4,62 +4,52 @@
 <html>
 <head>
     <title>All Blue</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            top: 25%;
+            max-width: 1200px;
+            width: 92%;
+            margin: 0 auto;
+            position: relative;
+            zoom: 1;
+            z-index: 2;
+        }
+
+        .patern {
+            width: 50%;
+            height: 2px;
+            background: #fff;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .home-img {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: absolute;
+            background: url(/img/home.jpg) no-repeat fixed 50% 0;
+            background-size: 100% 100%;
+        }
+    </style>
 </head>
 
-<body onload="loadRoleList()" style="background: #d2d6de;">
+<body>
 <%@ include file="common/header.jsp" %>
-<div>
-    <article class="htmleaf-container">
-        <section id="gallery-wrapper" class="wrapper"></section>
-    </article>
+<div class="container">
+    <h3 style="color: white; font-size: 20px">建站资源共享学习平台</h3>
+    <h1 style="color: white; font-size: 60px">欢迎访问 <span style="color: #f54f36">AllBlue</span></h1>
+    <div class="patern">
+        <span></span>
+    </div>
 </div>
-<script src="/js/role/pinterest_grid.js"></script>
-<script type="text/javascript">
-    $(function () {
-        var userId = "${blueUser.id}";
-        if (userId !== null && userId !== "") {
-            //瀑布流插件
-            $("#gallery-wrapper").pinterest_grid({
-                no_columns: 4,
-                padding_x: 10,
-                padding_y: 10,
-                margin_bottom: 50,
-                single_column_breakpoint: 700
-            });
-        }
-    });
-
-    function loadRoleList() {
-        $.ajax({
-            url: "/role/roleIndex",    //请求的url地址
-            dataType: "json",   //返回格式为json
-            async: true, //请求是否异步，默认为异步，这也是ajax重要特性
-            data: {},    //参数值
-            type: "GET",   //请求方式
-            success: function (data) {
-                var str = "";
-                //先将元素对应清空
-                $('#gallery-wrapper').empty();
-
-                if (data.length === 0) {
-                    str += '<tr><td colspan="8">目前还没有角色数据</td></tr>';
-                } else {
-                    for (var i = 0; i < data.length; i++) {
-                        var role = data[i];
-                        str += '<article class="white-panel"><a href="/role/' + role.id + '/detail">' +
-                            '<img class="thumbnail gallerybox" src="' + role.pic + '"></a></article>';
-                    }
-                }
-                //将html动态拼接到对应的div上面
-                $('#gallery-wrapper').append(str);
-            },
-            error: function (data) {
-                if (data.responseText === 'loseSession') {
-                    window.location.href = "/view/login";
-                }
-            }
-        });
-    }
-</script>
+<div class="home-img"></div>
 </body>
 </html>

@@ -63,17 +63,6 @@ MySQL - 5.6.17 : Database - allblue
 # /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 # /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 #
-# CREATE TABLE `role` (
-#   `id` int(11) NOT NULL AUTO_INCREMENT,
-#   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-#   `sex` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-#   `age` int(3) NOT NULL,
-#   `pic` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-#   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-#   `video` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-#   PRIMARY KEY (`id`)
-# ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 /* =============用户角色功能表====================*/
 
 DROP TABLE IF EXISTS blue_user;
@@ -153,3 +142,16 @@ CREATE TABLE `persistent_logins` (
   `token` varchar(64) not null,
   `last_used` timestamp not null
   )ENGINE=InnoDB CHARSET=utf8 COMMENT='用户Token表';
+
+/*=============图片画廊数据库============*/
+
+CREATE TABLE `photo` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `shooting_title` varchar(64) NOT NULL COMMENT '主题',
+  `shooting_location` varchar(64) NOT NULL COMMENT '地点',
+  `shooting_time` varchar(64) NOT NULL COMMENT '时间',
+  `shooting_photo` varchar(255) NOT NULL COMMENT '照片url',
+  `description` varchar(255) NOT NULL COMMENT '描述',
+  `video` varchar(255) NOT NULL COMMENT '视频',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

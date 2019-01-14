@@ -27,15 +27,15 @@ public class ResultInfo {
 
     private Object data;// 操作返回数据绑定
 
-    public ResultInfo() {
+    private ResultInfo() {
     }
 
-    public ResultInfo(int status, String message) {
+    private ResultInfo(int status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public ResultInfo(int status, String message, Object data) {
+    private ResultInfo(int status, String message, Object data) {
         super();
         this.status = status;
         this.message = message;

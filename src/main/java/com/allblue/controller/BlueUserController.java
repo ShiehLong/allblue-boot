@@ -1,6 +1,6 @@
 package com.allblue.controller;
 
-import com.allblue.model.BlueUser;
+import com.allblue.model.po.BlueUser;
 import com.allblue.model.dto.ResultInfo;
 import com.allblue.model.dto.SearchDTO;
 import com.allblue.service.BlueUserService;
@@ -169,7 +169,7 @@ public class BlueUserController {
         }
     }
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+            @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResultInfo upload(
             @RequestParam(value = "uploadImage", required = false) MultipartFile photo) {
         //上传照片

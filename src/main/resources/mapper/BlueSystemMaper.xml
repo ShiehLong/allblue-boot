@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.allblue.mapper.BlueSystemMapper">
-    <resultMap id="BaseResultMap" type="com.allblue.model.BlueSystem">
+    <resultMap id="BaseResultMap" type="com.allblue.model.po.BlueSystem">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
@@ -21,7 +21,7 @@
         id,code, name,url,level,parent_code,sort_id, status, created_time, modified_time, creator, modifier, remark
     </sql>
 
-    <select id="selectSystemInfo" resultMap="BaseResultMap" parameterType="com.allblue.model.BlueSystem">
+    <select id="selectSystemInfo" resultMap="BaseResultMap" parameterType="com.allblue.model.po.BlueSystem">
         select
         *
         from blue_system
@@ -41,7 +41,7 @@
 
     </select>
 
-    <insert id="insert" parameterType="com.allblue.model.BlueSystem" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.allblue.model.po.BlueSystem" useGeneratedKeys="true" keyProperty="id">
         insert into blue_system (
         code,
         name,
@@ -120,7 +120,7 @@
         GROUP BY code
     </select>
 
-    <update id="updateByCode" parameterType="com.allblue.model.BlueSystem">
+    <update id="updateByCode" parameterType="com.allblue.model.po.BlueSystem">
         update blue_system
         <set>
             <if test="name != null">

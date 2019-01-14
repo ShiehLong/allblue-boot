@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>用户列表</title>
+    <title>照片列表</title>
 </head>
 <body>
 <%@ include file="../common/header.jsp" %>
@@ -12,15 +12,15 @@
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-md-12">
                     <div class="collapse navbar-collapse form-inline">
-                        <button type="button" class="btn btn-primary" data-target="#createUser" data-toggle="modal"
+                        <button type="button" class="btn btn-primary" data-target="#createPhoto" data-toggle="modal"
                                 style="margin-right: 50px;">
-                            新建
+                            新增
                         </button>
                         <div class="form-group">
-                            <input id="search_context" type="text" name="searchContext" class="form-control"
+                            <input id="search-context" type="text" name="searchContext" class="form-control"
                                    placeholder="请输入查询信息" value="${searchContext}">
                         </div>
-                        <button type="submit" class="btn btn-primary" id="searchUser" onclick="doQuery();"
+                        <button type="submit" class="btn btn-primary" id="searchPhoto" onclick="doQuery();"
                                 style="margin-left: 10px;">查询
                         </button>
                     </div>
@@ -30,18 +30,18 @@
         </div>
 
         <%--新建model--%>
-        <div id="createUser" class="modal fade" role="dialog" aria-labelledby="createModalLabel"
+        <div id="createPhoto" class="modal fade" role="dialog" aria-labelledby="createModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         <h4 id="createModalLabel">
-                            新建用户
+                            新增照片
                         </h4>
                     </div>
                     <div class="modal-body">
-                        <form id="create_user_form" class="form-horizontal">
+                        <form id="create_photo_form" class="form-horizontal">
                             <div class="form-group">
                                 <label for="create_name" class="col-sm-2 control-label">用户名</label>
                                 <div class="col-sm-10">
@@ -65,7 +65,7 @@
         </div>
 
         <%--修改model--%>
-        <div id="editUser" class="modal fade" role="dialog" aria-labelledby="editModalLabel"
+        <div id="editPhoto" class="modal fade" role="dialog" aria-labelledby="editModalLabel"
              aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -77,7 +77,7 @@
                         <input type="text" id="edit_id" value="" style="display: none">
                     </div>
                     <div class="modal-body">
-                        <form id="edit_user_form" class="form-horizontal">
+                        <form id="edit_photo_form" class="form-horizontal">
                             <div class="form-group text-center">
                                 <label>
                                     <img id="image" src="/img/default.jpg" class="img-circle"
@@ -123,6 +123,6 @@
         </div>
     </div>
 </div>
-<script src="/js/user/list.js"></script>
+<script src="/js/photo/list.js"></script>
 </body>
 </html>

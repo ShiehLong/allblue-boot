@@ -1,7 +1,7 @@
 package com.allblue.security;
 
-import com.allblue.model.BlueRole;
-import com.allblue.model.BlueUser;
+import com.allblue.model.po.BlueRole;
+import com.allblue.model.po.BlueUser;
 import com.allblue.service.BlueRoleService;
 import com.allblue.service.BlueUserService;
 import org.springframework.beans.factory.annotation.Autowired;

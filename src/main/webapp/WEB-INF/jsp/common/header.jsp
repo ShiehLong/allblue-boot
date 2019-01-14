@@ -34,16 +34,19 @@
         <div>
             <ul class="nav navbar-nav navbar-right" style="margin-right: 30px;">
                 <li class="dropdown">
+                    <a href="/view/photo/gallery">图片画廊</a>
+                </li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         数据中心
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/view/userList">用户列表</a></li>
-                        <li><a href="/view/roleList">角色列表</a></li>
-                        <li><a href="/view/systemList">菜单列表</a></li>
+                        <li><a href="/view/user/list">用户列表</a></li>
+                        <li><a href="/view/role/list">角色列表</a></li>
+                        <li><a href="/view/system/list">菜单列表</a></li>
                         <li class="divider"></li>
-                        <li><a href="/role/list">角色列表</a></li>
+                        <li><a href="/view/photo/list">角色列表</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -54,7 +57,7 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/view/userDetail">详情</a></li>
+                        <li><a href="/view/user/detail">详情</a></li>
                         <li class="divider"></li>
                         <li><a href="/user/logout"> 退出</a></li>
                     </ul>

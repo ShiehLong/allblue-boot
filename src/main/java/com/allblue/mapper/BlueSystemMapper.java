@@ -1,6 +1,6 @@
 package com.allblue.mapper;
 
-import com.allblue.model.BlueSystem;
+import com.allblue.model.po.BlueSystem;
 import com.allblue.model.dto.ZTreeNode;
 import org.springframework.stereotype.Repository;
 

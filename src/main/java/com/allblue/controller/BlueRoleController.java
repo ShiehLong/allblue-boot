@@ -1,7 +1,7 @@
 package com.allblue.controller;
 
-import com.allblue.model.BlueRole;
-import com.allblue.model.BlueUser;
+import com.allblue.model.po.BlueRole;
+import com.allblue.model.po.BlueUser;
 import com.allblue.model.dto.ResultInfo;
 import com.allblue.model.dto.SearchDTO;
 import com.allblue.model.vo.UserRoleVO;

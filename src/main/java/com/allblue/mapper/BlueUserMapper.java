@@ -1,6 +1,6 @@
 package com.allblue.mapper;
 
-import com.allblue.model.BlueUser;
+import com.allblue.model.po.BlueUser;
 import com.allblue.model.dto.SearchDTO;
 import org.springframework.stereotype.Repository;
 

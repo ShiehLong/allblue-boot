@@ -1,4 +1,4 @@
-package com.allblue.model;
+package com.allblue.model.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

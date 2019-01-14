@@ -1,6 +1,6 @@
 package com.allblue.mapper;
 
-import com.allblue.model.BlueRole;
+import com.allblue.model.po.BlueRole;
 import com.allblue.model.dto.SearchDTO;
 import com.allblue.model.vo.SystemRoleVO;
 import com.allblue.model.vo.UserRoleVO;

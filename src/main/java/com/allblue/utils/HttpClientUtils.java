@@ -1,6 +1,6 @@
 package com.allblue.utils;
 
-import com.allblue.model.HttpClientResult;
+import com.allblue.model.dto.HttpClientResult;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;

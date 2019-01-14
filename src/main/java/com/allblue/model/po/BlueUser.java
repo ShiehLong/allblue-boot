@@ -1,43 +1,34 @@
-package com.allblue.model;
+package com.allblue.model.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 
-/**
- * @Description:
- * @Author Xone
- * @Date 17:38 2018/11/26
- **/
-public class BlueSystem {
+public class BlueUser {
     //主键ID
     private Integer id;
-    //系统编码code
-    private String code;
-    //系统名称
+    //用户名称
     private String name;
-    //系统地址
-    private String url;
-    //菜单等级
-    private Integer level;
-    //父节点code
-    private String parent_code;
-    //排序ID
-    private Integer sort_id;
+    //邮箱
+    private String email;
+    //密码
+    @JsonIgnore
+    private String password;
+    //头像
+    private String photo;
     //状态
     private Integer status;
     //创建时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8") //Jackson包使用注解
     private Date created_time;
     //最后修改时间
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8") //Jackson包使用注解
     private Date modified_time;
     //创建者
     private String creator;
     //修改人
     private String modifier;
-    //备注
-    private String remark;
 
     public Integer getId() {
         return id;
@@ -47,52 +38,36 @@ public class BlueSystem {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
-    public String getUrl() {
-        return url;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
-    public Integer getLevel() {
-        return level;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 
-    public String getParent_code() {
-        return parent_code;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setParent_code(String parent_code) {
-        this.parent_code = parent_code;
-    }
-
-    public Integer getSort_id() {
-        return sort_id;
-    }
-
-    public void setSort_id(Integer sort_id) {
-        this.sort_id = sort_id;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public Integer getStatus() {
@@ -135,30 +110,19 @@ public class BlueSystem {
         this.modifier = modifier;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
     @Override
     public String toString() {
-        return "BlueSystem{" +
+        return "BlueUser{" +
                 "id=" + id +
-                ", code='" + code + '\'' +
                 ", name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", level=" + level +
-                ", parent_code='" + parent_code + '\'' +
-                ", sort_id=" + sort_id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", photo='" + photo + '\'' +
                 ", status=" + status +
                 ", created_time=" + created_time +
                 ", modified_time=" + modified_time +
                 ", creator='" + creator + '\'' +
                 ", modifier='" + modifier + '\'' +
-                ", remark='" + remark + '\'' +
                 '}';
     }
 }

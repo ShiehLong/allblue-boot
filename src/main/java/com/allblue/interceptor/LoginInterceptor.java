@@ -1,6 +1,6 @@
 package com.allblue.interceptor;
 
-import com.allblue.model.BlueUser;
+import com.allblue.model.po.BlueUser;
 import com.allblue.service.BlueUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

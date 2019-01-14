@@ -35,7 +35,7 @@ $(function () {
         data.append("uploadImage", file);
         $.ajax({
             type: "POST",
-            url: "/blueUser/upload",
+            url: "/photo/upload",
             data: data,
             dataType: 'JSON',
             processData: false,  // 告诉jQuery不要去处理发送的数据
@@ -56,7 +56,7 @@ function doQuery() {
 //初始化Table
 function initTable() {
     $('#table').bootstrapTable({
-        url: '/blueUser/getUserListBySearchDTO',                  //请求后台的URL（*）
+        url: '/photo/list',                  //请求后台的URL（*）
         method: 'post',                     //请求方式（*）
         // toolbar: '#toolbar',             //工具按钮用哪个容器
         striped: true,                      //是否显示行间隔色
@@ -68,7 +68,7 @@ function initTable() {
         queryParamsType: "limit", //参数格式,发送标准的RESTFul类型的参数请求
         queryParams: function (params) {
             return {
-                searchContext: $("#search_context").val(),
+                searchContext: $("#search-context").val(),
                 offset: params.offset,  //页码
                 limit: params.limit,   //页面大小
                 order: params.order, //排序
@@ -92,42 +92,29 @@ function initTable() {
             title: '序号',
             align: 'center'
         }, {
-            field: 'name',
-            title: '姓名',
+            field: 'shootingTitle',
+            title: '主题',
             align: 'center'
         }, {
-            field: 'email',
-            title: '邮箱',
+            field: 'shootingLocation',
+            title: '地点',
             align: 'center'
         }, {
-            field: 'status',
-            title: '状态',
-            align: 'center',
-            formatter: function (value, row, index) {
-                if (row['status'] === 1) {
-                    return '正常';
-                }
-                if (row['status'] === 0) {
-                    return '禁用';
-                }
-                return value;
-            }
-        }, {
-            field: 'creator',
-            title: '创建人',
+            field: 'shootingTime',
+            title: '时间',
             align: 'center'
         }, {
-            field: 'created_time',
-            title: '创建时间',
+            field: 'shootingPhoto',
+            title: '照片',
+            align: 'center'
+        }, {
+            field: 'description',
+            title: '描述',
             align: 'center',
         }, {
-            field: 'modifier',
-            title: '修改人',
+            field: 'video',
+            title: '视频',
             align: 'center'
-        }, {
-            field: 'modified_time',
-            title: '修改时间',
-            align: 'center',
         }, {
             field: 'operation',
             title: '操作',
@@ -156,17 +143,17 @@ function responseHandler(res) {
 // 修改按钮、删除按钮
 function operateFormatter(value, row, index) {
     return [
-        '<button id="btn_edit" type="button" class="btn btn-info" data-toggle="modal">修改</button>',
-        '<button id="btn_delete" type="button" class="btn btn-warning" style="margin-left: 10px;">禁用</button>'
+        '<button id="btn-edit" type="button" class="btn btn-info" data-toggle="modal">修改</button>',
+        '<button id="btn-delete" type="button" class="btn btn-warning" style="margin-left: 10px;">禁用</button>'
     ].join('');
 }
 
 window.operateEvents = {
     // 点击修改按钮执行的方法
-    'click #btn_edit': function (e, value, row, index) {
+    'click #btn-edit': function (e, value, row, index) {
         $.ajax({
             type: "GET",
-            url: "/blueUser/detail/" + row['id'],
+            url: "/photo/detail/" + row['id'],
             data: {},
             dataType: 'JSON',
             success: function (data) {
@@ -174,14 +161,14 @@ window.operateEvents = {
                     console.log(data.message);
                     return;
                 }
-                var userInfo = data.data;
-                document.getElementById("edit_id").value = userInfo.id;
-                document.getElementById("editModalLabel").innerText = "修改用户【" + userInfo.name + "】信息";
-                document.getElementById("image").src = userInfo.photo;
-                document.getElementById("edit_email").value = userInfo.email;
-                $("input[name=status][value='" + userInfo.status + "']").attr("checked", true);
+                var PhotoInfo = data.data;
+                document.getElementById("edit_id").value = PhotoInfo.id;
+                document.getElementById("editModalLabel").innerText = "修改用户【" + PhotoInfo.name + "】信息";
+                document.getElementById("image").src = PhotoInfo.photo;
+                document.getElementById("edit_email").value = PhotoInfo.email;
+                $("input[name=status][value='" + PhotoInfo.status + "']").attr("checked", true);
                 // 显示模态框
-                $('#editUser').modal('show');
+                $('#editPhoto').modal('show');
             },
             error: function (data) {
                 if (data.status === 403) {
@@ -192,10 +179,10 @@ window.operateEvents = {
     },
 
     // 点击删除按钮执行的方法
-    'click #btn_delete': function (e, value, row, index) {
+    'click #btn-delete': function (e, value, row, index) {
         $.ajax({
             type: "GET",
-            url: "/blueUser/delete/" + row['id'],
+            url: "/photo/delete/" + row['id'],
             data: {},
             dataType: 'JSON',
             success: function (data) {
@@ -235,14 +222,14 @@ function submitCreateForm() {
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "/blueUser/save",
+        url: "/photo/save",
         data: {
             name: name,
             email: email
         },
         success: function (result) {
             if (result.status === 0) {
-                $("#createUser").modal('hide');
+                $("#createPhoto").modal('hide');
                 $("#table").bootstrapTable('refresh');
             } else {
                 console.log("保存失败，服务器内部异常！");
@@ -256,7 +243,7 @@ function submitCreateForm() {
     });
 
     //关闭模态框后清空数据
-    $('#createUser').on('hidden.bs.modal', function () {
+    $('#createPhoto').on('hidden.bs.modal', function () {
         $('#create_name').val("");
         $('#create_email').val("");
     });
@@ -284,9 +271,10 @@ function submitEditForm() {
 
     $.ajax({
         type: "POST",
-        url: "/blueUser/update/" + id,
+        url: "/photo/save",
         dataType: 'json',
         data: {
+            id : id,
             photo: photo,
             email: email,
             status: status,
@@ -294,7 +282,7 @@ function submitEditForm() {
         },
         success: function (result) {
             if (result.status === 0) {
-                $("#editUser").modal('hide');
+                $("#editPhoto").modal('hide');
                 $("#table").bootstrapTable('refresh');
             } else {
                 console.log("保存失败，服务器内部异常！");
@@ -308,7 +296,7 @@ function submitEditForm() {
     });
 
     //关闭模态框后清空数据
-    $('#editUser').on('hidden.bs.modal', function () {
+    $('#editPhoto').on('hidden.bs.modal', function () {
         $('#edit_id').val("");
         $('#create_email').val("");
         $('#image').src = "/img/default.jpg";

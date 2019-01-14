@@ -1,7 +1,7 @@
 package com.allblue.service.impl;
 
 import com.allblue.mapper.BlueUserMapper;
-import com.allblue.model.BlueUser;
+import com.allblue.model.po.BlueUser;
 import com.allblue.model.dto.SearchDTO;
 import com.allblue.service.BlueUserService;
 import org.slf4j.Logger;
