@@ -47,7 +47,7 @@
                 } else {
                     for (var i = 0; i < data.length; i++) {
                         var photo = data[i];
-                        str += '<article class="white-panel"><a href="/role/' + photo.id + '/detail">' +
+                        str += '<article class="white-panel"><a href="/view/photo/detail/' + photo.id +'">' +
                             '<img class="thumbnail gallerybox" src="' + photo.shootingPhoto + '"></a></article>';
                     }
                 }

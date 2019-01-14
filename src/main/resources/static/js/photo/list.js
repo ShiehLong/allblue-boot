@@ -144,7 +144,7 @@ function responseHandler(res) {
 function operateFormatter(value, row, index) {
     return [
         '<button id="btn-edit" type="button" class="btn btn-info" data-toggle="modal">修改</button>',
-        '<button id="btn-delete" type="button" class="btn btn-warning" style="margin-left: 10px;">禁用</button>'
+        '<button id="btn-delete" type="button" class="btn btn-warning" style="margin-left: 10px;">删除</button>'
     ].join('');
 }
 
@@ -162,13 +162,16 @@ window.operateEvents = {
                     return;
                 }
                 var PhotoInfo = data.data;
-                document.getElementById("edit_id").value = PhotoInfo.id;
-                document.getElementById("editModalLabel").innerText = "修改用户【" + PhotoInfo.name + "】信息";
-                document.getElementById("image").src = PhotoInfo.photo;
-                document.getElementById("edit_email").value = PhotoInfo.email;
-                $("input[name=status][value='" + PhotoInfo.status + "']").attr("checked", true);
+                document.getElementById("photo-id").value = PhotoInfo.id;
+                document.getElementById("image").src = PhotoInfo.shootingPhoto;
+                document.getElementById("photo-title").value = PhotoInfo.shootingTitle;
+                document.getElementById("photo-location").value = PhotoInfo.shootingLocation;
+                document.getElementById("photo-time").value = PhotoInfo.shootingTime;
+                document.getElementById("photo-desc").value = PhotoInfo.description;
+                document.getElementById("photo-video").value = PhotoInfo.video;
+
                 // 显示模态框
-                $('#editPhoto').modal('show');
+                $('#photoModal').modal('show');
             },
             error: function (data) {
                 if (data.status === 403) {
@@ -209,80 +212,42 @@ $(window).resize(function () {
     });
 });
 
-//新建用户保存操作
-function submitCreateForm() {
-    var name = $("#create_name").val();
-    var email = $("#create_email").val();
-    if (name === "" && email === "") {
-        alert("请填写用户信息!");
-        return false;
-    }
-
-    //提交表单
-    $.ajax({
-        type: "POST",
-        dataType: "json",
-        url: "/photo/save",
-        data: {
-            name: name,
-            email: email
-        },
-        success: function (result) {
-            if (result.status === 0) {
-                $("#createPhoto").modal('hide');
-                $("#table").bootstrapTable('refresh');
-            } else {
-                console.log("保存失败，服务器内部异常！");
-            }
-        },
-        error: function (data) {
-            if (data.status === 403) {
-                alert("没有权限！");
-            }
-        }
-    });
-
-    //关闭模态框后清空数据
-    $('#createPhoto').on('hidden.bs.modal', function () {
-        $('#create_name').val("");
-        $('#create_email').val("");
-    });
-}
-
 //修改用户信息保存操作
-function submitEditForm() {
+function submitForm() {
 
     var photo = $("#image").attr("src");
-    var email = $("#edit_email").val();
-    var status = $("input[name='status']:checked").val();
-    var password = $("#password").val();
-    var retryPassword = $("#retryPassword").val();
-    var id = $("#edit_id").val();
+    var title = $("#photo-title").val();
+    var location = $("#photo-location").val();
+    var time = $("#photo-time").val();
+    var desc = $("#photo-desc").val();
+    var video = $("#photo-video").val();
+    var id = $("#photo-id").val();
 
-    if (photo === "" && email === "" && password === "" && retryPassword === "") {
+    if (photo === "" && title === "" && location === "" && time === "" && desc === "" && video === "") {
         alert("请填写需要变更信息！");
         return false;
     }
-
-    if (retryPassword !== password) {
-        alert("两次密码不一致！");
-        return false;
+    if (id === "") {
+        id = 0;
     }
 
     $.ajax({
         type: "POST",
         url: "/photo/save",
         dataType: 'json',
+        contentType: "application/json",
         data: {
-            id : id,
-            photo: photo,
-            email: email,
-            status: status,
-            password: password
+            id: id,
+            shootingTitle: title,
+            shootingLocation: location,
+            shootingTime: time,
+            shootingPhoto: photo,
+            description: desc,
+            video: video
         },
         success: function (result) {
             if (result.status === 0) {
-                $("#editPhoto").modal('hide');
+                $("#photoModal").modal('hide');
                 $("#table").bootstrapTable('refresh');
             } else {
                 console.log("保存失败，服务器内部异常！");
@@ -296,17 +261,13 @@ function submitEditForm() {
     });
 
     //关闭模态框后清空数据
-    $('#editPhoto').on('hidden.bs.modal', function () {
-        $('#edit_id').val("");
-        $('#create_email').val("");
+    $('#photoModal').on('hidden.bs.modal', function () {
+        $("#photo-title").val("");
+        $("#photo-location").val("");
+        $("#photo-time").val("");
+        $("#photo-desc").val("");
+        $("#photo-video").val("");
+        $("#photo-id").val("");
         $('#image').src = "/img/default.jpg";
-        $("input[name=status][value='0']").removeAttr('checked');
-        $("input[name=status][value='1']").removeAttr('checked');
     });
 }
-
-// $("#table").bootstrapTable('remove', {field: 'id',values: [row['id']]});
-// 表格中插入数据
-// $("#table").bootstrapTable('insertRow', {index: i, row: result.data[i]});
-// 更新某一行数据
-// $("#table").bootstrapTable('updateRow', {index: indexT, row: rowT});

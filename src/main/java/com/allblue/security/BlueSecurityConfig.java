@@ -37,6 +37,7 @@ public class BlueSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/fonts/**");
         web.ignoring().antMatchers("/img/**");
         web.ignoring().antMatchers("/js/**");
+        web.ignoring().antMatchers("/photos/photo/**");
         web.ignoring().antMatchers("/view/login");
         web.ignoring().antMatchers("/view/register");
         web.ignoring().antMatchers("/view/access");

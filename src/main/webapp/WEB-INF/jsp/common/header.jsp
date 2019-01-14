@@ -57,7 +57,7 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="/view/user/detail">详情</a></li>
+                        <li><a href="#" data-target="#detail" data-toggle="modal">详情</a></li>
                         <li class="divider"></li>
                         <li><a href="/user/logout"> 退出</a></li>
                     </ul>
@@ -66,3 +66,31 @@
         </div>
     </div>
 </nav>
+<div id="detail" class="modal fade" role="dialog" aria-labelledby="detailModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="width: 400px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 id="detailModalLabel">
+                    用户详情
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="user_form" class="form-horizontal">
+                    <div class="form-group">
+                        <img id="image" src="${blueUser.photo}" style="width: 128px;height: 128px" class="img-circle"
+                             alt="photo">
+                    </div>
+                    <div class="form-group">
+                        <p>${blueUser.name }</p>
+                        <p>${blueUser.email }</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

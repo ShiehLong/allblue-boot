@@ -36,7 +36,7 @@ public class PhotoController {
     public ResultInfo list() {
         //获取信息列表
         List<Photo> list = photoService.getPhotoList();
-        return ResultInfo.success("success", list);
+        return ResultInfo.success(Integer.toString(list.size()), list);
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)

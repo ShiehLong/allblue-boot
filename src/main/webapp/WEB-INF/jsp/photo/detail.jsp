@@ -2,20 +2,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>角色[${roleInfo.name}]详细信息</title>
+    <title>详细信息</title>
     <style>
         body {
-            margin: 0px;
-            padding: 0px;
+            margin: 0;
+            padding: 0;
         }
 
         div.container {
             position: absolute;
             top: 60px;
-            bottom: 0px;
+            bottom: 0;
         }
 
-        div#image, #roleDetail {
+        div#image, #photoDetail {
             width: 550px;
             height: 550px;
             max-width: 50%;
@@ -32,7 +32,7 @@
 
         .close_video {
             position: absolute;
-            top: 0px;
+            top: 0;
             right: 200px;
         }
 
@@ -56,29 +56,29 @@
 </head>
 
 <body>
-<%@ include file="/jsp/common/header.jsp" %>
+<%@ include file="../common/header.jsp" %>
 <div class="container">
-    <div id="roleTab" class="row" style="display: block">
+    <div id="photoTab" class="row" style="display: block">
         <div id="image" class="col-xs-8 col-sm-6">
-            <img src="${roleInfo.pic}" class="autoSize">
+            <img src="${photoInfo.shootingPhoto}" class="autoSize">
         </div>
-        <div id="roleDetail" class="col-xs-4 col-sm-6">
+        <div id="photoDetail" class="col-xs-4 col-sm-6">
             <div class="table">
                 <div class="row">
-                    <div class="cell">姓名:</div>
-                    <div class="cell">${roleInfo.name }</div>
+                    <div class="cell">主题:</div>
+                    <div class="cell">${photoInfo.shootingTitle }</div>
                 </div>
                 <div class="row">
-                    <div class="cell">性别:</div>
-                    <div class="cell">${roleInfo.sex }</div>
+                    <div class="cell">地点:</div>
+                    <div class="cell">${photoInfo.shootingLocation }</div>
                 </div>
                 <div class="row">
-                    <div class="cell">年龄:</div>
-                    <div class="cell">${roleInfo.age }</div>
+                    <div class="cell">时间:</div>
+                    <div class="cell">${photoInfo.shootingTime }</div>
                 </div>
                 <div class="row">
                     <div class="cell">描述:</div>
-                    <div class="cell">${roleInfo.description }</div>
+                    <div class="cell">${photoInfo.description }</div>
                 </div>
                 <div class="row">
                     <div class="cell">视频:</div>
@@ -90,22 +90,22 @@
         </div>
     </div>
     <div id="videoTab" style="text-align:center;display: none">
-        <video id="roleVideo" width="800" height="590" controls>
-            <source src="/photos/role/1.mp4" type="video/mp4">
+        <video id="photoVideo" width="800" height="590" controls>
+            <source src="/photos/photo/1.mp4" type="video/mp4">
         </video>
         <div class="close_video">
-            <img id="closeVideo" width='16' height='16' src="/img/close.gif" style="vertical-align:middle"/>
+            <button id="closeVideo" type="button" class="close">×</button>
         </div>
     </div>
 </div>
 <script>
     $("#playVideo").click(function () {
-        document.getElementById('roleTab').style.display = 'none';
+        document.getElementById('photoTab').style.display = 'none';
         document.getElementById('videoTab').style.display = 'block';
     });
     $("#closeVideo").click(function () {
-        document.getElementById('roleVideo').pause();
-        document.getElementById('roleTab').style.display = 'block';
+        document.getElementById('photoVideo').pause();
+        document.getElementById('photoTab').style.display = 'block';
         document.getElementById('videoTab').style.display = 'none';
     });
 </script>
