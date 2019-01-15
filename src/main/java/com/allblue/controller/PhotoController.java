@@ -1,6 +1,7 @@
 package com.allblue.controller;
 
 import com.allblue.model.dto.ResultInfo;
+import com.allblue.model.dto.SearchDTO;
 import com.allblue.model.po.Photo;
 import com.allblue.service.PhotoService;
 import com.allblue.utils.UploadUtil;
@@ -33,10 +34,37 @@ public class PhotoController {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ResultInfo list() {
-        //获取信息列表
-        List<Photo> list = photoService.getPhotoList();
-        return ResultInfo.success(Integer.toString(list.size()), list);
+    public ResultInfo list(
+            @RequestParam(value = "searchContext", required = false) String opts,
+            @RequestParam(value = "sort", required = false) String sort,
+            @RequestParam(value = "order", required = false) String order,
+            @RequestParam(value = "offset", required = false) Integer offset,
+            @RequestParam(value = "limit", required = false) Integer limit) {
+
+        if(opts == null){
+            opts = "";
+        }
+        //获取数量
+        int totalCount = photoService.getTotalCount(opts);
+        if (totalCount > 0) {
+            if (offset == null || limit == null || sort == null || order == null) {
+                List<Photo> list = photoService.getPhotoList();
+                return ResultInfo.success(Integer.toString(totalCount), list);
+            } else {
+                //设置参数
+                SearchDTO searchDTO = new SearchDTO();
+                searchDTO.setOffset(offset);
+                searchDTO.setLimit(limit);
+                searchDTO.setSearchContext(opts);
+                searchDTO.setSortName(sort);
+                searchDTO.setSortOrder(order);
+                //获取信息列表
+                List<Photo> list = photoService.getPhotoListByDTO(searchDTO);
+                return ResultInfo.success(Integer.toString(totalCount), list);
+            }
+        }
+        return ResultInfo.error("无数据");
+
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -48,7 +76,7 @@ public class PhotoController {
         return ResultInfo.success(url);
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST, produces = {"text/json;charset=UTF-8"})
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResultInfo save(@RequestBody Photo photo) {
 
         boolean isSave = false;

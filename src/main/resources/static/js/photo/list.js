@@ -3,9 +3,9 @@ $(function () {
     initTable();
 
     //实现预览上传功能
-    $("#photo").change(function preview() {
+    $("#photo-file").change(function preview() {
         //获取文件框的第一个文件,因为文件有可能上传多个文件,这里是一个文件
-        var file = document.getElementById("photo").files[0];
+        var file = document.getElementById("photo-file").files[0];
         //可以进行一下文件类型的判断
         var fileType = file.type.split("/")[0];
         if (fileType !== "image") {
@@ -19,7 +19,7 @@ $(function () {
             return;
         }
         //获取img对象
-        var img = document.getElementById("image");
+        var img = document.getElementById("photo-image");
         //建一条文件流来读取图片
         var reader = new FileReader();
         //根据url将文件添加的流中
@@ -69,10 +69,10 @@ function initTable() {
         queryParams: function (params) {
             return {
                 searchContext: $("#search-context").val(),
-                offset: params.offset,  //页码
-                limit: params.limit,   //页面大小
-                order: params.order, //排序
-                sort: params.sort //排序
+                offset: params.pageNumber,  //页码
+                limit: params.pageSize,   //页面大小
+                order: params.sortOrder, //排序
+                sort: params.sortName //排序
             };
         },           //传递参数（*）
         sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
@@ -106,11 +106,14 @@ function initTable() {
         }, {
             field: 'shootingPhoto',
             title: '照片',
-            align: 'center'
+            align: 'center',
+            formatter: function (value, row, index) {
+                return ['<img src="' + value + '" class="img-circle" style="width: 28px;height: 28px;" alt="photo">'].join('');
+            }
         }, {
             field: 'description',
             title: '描述',
-            align: 'center',
+            align: 'center'
         }, {
             field: 'video',
             title: '视频',
@@ -161,14 +164,14 @@ window.operateEvents = {
                     console.log(data.message);
                     return;
                 }
-                var PhotoInfo = data.data;
-                document.getElementById("photo-id").value = PhotoInfo.id;
-                document.getElementById("image").src = PhotoInfo.shootingPhoto;
-                document.getElementById("photo-title").value = PhotoInfo.shootingTitle;
-                document.getElementById("photo-location").value = PhotoInfo.shootingLocation;
-                document.getElementById("photo-time").value = PhotoInfo.shootingTime;
-                document.getElementById("photo-desc").value = PhotoInfo.description;
-                document.getElementById("photo-video").value = PhotoInfo.video;
+                var photoInfo = data.data;
+                document.getElementById("photo-id").value = photoInfo.id;
+                document.getElementById("photo-image").src = photoInfo.shootingPhoto;
+                document.getElementById("photo-title").value = photoInfo.shootingTitle;
+                document.getElementById("photo-location").value = photoInfo.shootingLocation;
+                document.getElementById("photo-time").value = photoInfo.shootingTime;
+                document.getElementById("photo-desc").value = photoInfo.description;
+                document.getElementById("photo-video").value = photoInfo.video;
 
                 // 显示模态框
                 $('#photoModal').modal('show');
@@ -215,7 +218,7 @@ $(window).resize(function () {
 //修改用户信息保存操作
 function submitForm() {
 
-    var photo = $("#image").attr("src");
+    var photo = $("#photo-image").attr("src");
     var title = $("#photo-title").val();
     var location = $("#photo-location").val();
     var time = $("#photo-time").val();
@@ -230,21 +233,22 @@ function submitForm() {
     if (id === "") {
         id = 0;
     }
+    var data = {
+        "id": id,
+        "shootingTitle": title,
+        "shootingLocation": location,
+        "shootingTime": time,
+        "shootingPhoto": photo,
+        "description": desc,
+        "video": video
+    };
 
     $.ajax({
         type: "POST",
         url: "/photo/save",
         dataType: 'json',
         contentType: "application/json",
-        data: {
-            id: id,
-            shootingTitle: title,
-            shootingLocation: location,
-            shootingTime: time,
-            shootingPhoto: photo,
-            description: desc,
-            video: video
-        },
+        data: JSON.stringify(data),
         success: function (result) {
             if (result.status === 0) {
                 $("#photoModal").modal('hide');
@@ -268,6 +272,16 @@ function submitForm() {
         $("#photo-desc").val("");
         $("#photo-video").val("");
         $("#photo-id").val("");
-        $('#image').src = "/img/default.jpg";
+        document.getElementById("photo-image").src = "/img/default.jpg";
     });
 }
+
+$("#photo-close").click(function () {
+    $("#photo-title").val("");
+    $("#photo-location").val("");
+    $("#photo-time").val("");
+    $("#photo-desc").val("");
+    $("#photo-video").val("");
+    $("#photo-id").val("");
+    document.getElementById("photo-image").src = "/img/default.jpg";
+});

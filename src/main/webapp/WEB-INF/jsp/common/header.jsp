@@ -68,7 +68,7 @@
 </nav>
 <div id="detail" class="modal fade" role="dialog" aria-labelledby="detailModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog" style="width: 400px">
+    <div class="modal-dialog" style="width: 400px;text-align: center">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -79,7 +79,7 @@
             <div class="modal-body">
                 <form id="user_form" class="form-horizontal">
                     <div class="form-group">
-                        <img id="image" src="${blueUser.photo}" style="width: 128px;height: 128px" class="img-circle"
+                        <img src="${blueUser.photo}" style="width: 128px;height: 128px" class="img-circle"
                              alt="photo">
                     </div>
                     <div class="form-group">

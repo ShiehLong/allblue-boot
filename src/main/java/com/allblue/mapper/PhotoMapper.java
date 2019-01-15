@@ -1,5 +1,6 @@
 package com.allblue.mapper;
 
+import com.allblue.model.dto.SearchDTO;
 import com.allblue.model.po.Photo;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,8 @@ public interface PhotoMapper {
     int update(Photo photo);
 
     boolean delete(int id);
+
+    int getTotalCount(String opts);
+
+    List<Photo> getPhotoListByDTO(SearchDTO searchDTO);
 }

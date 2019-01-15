@@ -1,6 +1,7 @@
 package com.allblue.service.impl;
 
 import com.allblue.mapper.PhotoMapper;
+import com.allblue.model.dto.SearchDTO;
 import com.allblue.model.po.Photo;
 import com.allblue.service.PhotoService;
 import org.slf4j.Logger;
@@ -22,6 +23,12 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Autowired
     private PhotoMapper photoMapper;
+
+    @Override
+    public List<Photo> getPhotoListByDTO(SearchDTO searchDTO) {
+        List<Photo> list = photoMapper.getPhotoListByDTO(searchDTO);
+        return list;
+    }
 
     @Override
     public List<Photo> getPhotoList() {
@@ -51,5 +58,11 @@ public class PhotoServiceImpl implements PhotoService {
     public boolean delete(int id) {
         boolean flag = photoMapper.delete(id);
         return flag;
+    }
+
+    @Override
+    public int getTotalCount(String opts) {
+        int count = photoMapper.getTotalCount(opts);
+        return count;
     }
 }

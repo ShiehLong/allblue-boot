@@ -34,7 +34,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <button id="photo-close" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         <h4 id="photoModalLabel">照片信息</h4>
                         <input type="text" id="photo-id" value="" style="display: none">
                     </div>
@@ -42,9 +42,9 @@
                         <form id="photo_form" class="form-horizontal">
                             <div class="form-group text-center">
                                 <label>
-                                    <img id="image" src="/img/default.jpg" class="img-circle"
+                                    <img id="photo-image" src="/img/default.jpg" class="img-circle"
                                          style="width: 128px;height: 128px;" alt="photo">
-                                    <input type="file" id="photo" style="width: 128px;display: none">
+                                    <input type="file" id="photo-file" style="width: 128px;display: none">
                                 </label>
                             </div>
                             <div class="form-group">

@@ -17,6 +17,22 @@
         from photo order by id ASC
     </select>
 
+    <select id="getPhotoListByDTO" parameterType="com.allblue.model.dto.SearchDTO"
+            resultType="com.allblue.model.po.Photo">
+        select
+        id,
+        shooting_title as shootingTitle,
+        shooting_location as shootingLocation,
+        shooting_time as shootingTime,
+        shooting_photo as shootingPhoto,
+        description,
+        video
+        from photo
+        where shooting_title LIKE CONCAT('%',#{searchContext},'%')
+        ORDER BY #{sortName} #{sortOrder}
+        LIMIT #{offset},#{limit}
+    </select>
+
     <insert id="add" parameterType="com.allblue.model.po.Photo" keyProperty="id">
         insert into
         photo (
@@ -77,5 +93,12 @@
         delete from photo
         where id = #{id,jdbcType=INTEGER}
     </delete>
+
+    <select id="getTotalCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select
+        count(*)
+        from photo
+        where shooting_title LIKE CONCAT('%',#{opts},'%')
+    </select>
 
 </mapper>
