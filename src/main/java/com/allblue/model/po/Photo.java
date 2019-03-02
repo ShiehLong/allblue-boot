@@ -1,11 +1,13 @@
 package com.allblue.model.po;
 
+import java.io.Serializable;
+
 /**
  * @Description: ...
  * @Author: Xone
  * @Date: 2019/1/14 16:35
  **/
-public class Photo {
+public class Photo implements Serializable {
     private int id;
     private String shootingTitle;
     private String shootingLocation;

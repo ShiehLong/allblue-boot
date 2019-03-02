@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +33,8 @@ public class PhotoController {
     @Autowired
     private PhotoService photoService;
 
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public ResultInfo list(
@@ -44,6 +47,7 @@ public class PhotoController {
         if(opts == null){
             opts = "";
         }
+        kafkaTemplate.send("photo",opts);
         //获取数量
         int totalCount = photoService.getTotalCount(opts);
         if (totalCount > 0) {

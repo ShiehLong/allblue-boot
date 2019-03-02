@@ -1,0 +1,4 @@
+1.启动zk  zookeeper-3.4.13\bin\zkServer.cmd
+2.启动kafka  .\bin\windows\kafka-server-start.bat .\config\server.properties
+3.启动redis  redis-server.exe
+4.启动mysql net start mysql(以管理员权限启动)
